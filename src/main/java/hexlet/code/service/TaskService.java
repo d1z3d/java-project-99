@@ -4,7 +4,6 @@ import hexlet.code.dto.task.TaskCreateDTO;
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskParamsDTO;
 import hexlet.code.dto.task.TaskUpdateDTO;
-import hexlet.code.exception.ForbiddenException;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.repository.TaskRepository;
@@ -43,9 +42,6 @@ public class TaskService {
     }
 
     public TaskDTO create(TaskCreateDTO dto) {
-        if (userUtils.getCurrentUser() == null) {
-            throw new ForbiddenException("You have to login to create task");
-        }
         var task = taskMapper.map(dto);
         var taskStatus = taskStatusRepository.findBySlug(dto.getStatus())
                 .orElseThrow(() -> new ResourceNotFoundException("Task status with " + dto.getStatus() + " not found"));
@@ -61,9 +57,6 @@ public class TaskService {
     }
 
     public TaskDTO update(Long id, TaskUpdateDTO dto) {
-        if (userUtils.getCurrentUser() == null) {
-            throw new ForbiddenException("You have to login to update task");
-        }
         var task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task with id " + id + " not found"));
         taskMapper.update(dto, task);
@@ -72,9 +65,6 @@ public class TaskService {
     }
 
     public void delete(Long id) {
-        if (userUtils.getCurrentUser() == null) {
-            throw new ForbiddenException("You have to login to delete task");
-        }
         var task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task with id " + id + " not found"));
         taskRepository.delete(task);
