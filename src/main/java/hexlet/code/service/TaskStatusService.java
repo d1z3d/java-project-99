@@ -49,9 +49,9 @@ public class TaskStatusService {
     }
 
     public TaskStatusDTO update(Long id, TaskStatusUpdateDTO dto) {
-        if (userUtils.getCurrentUser() == null) {
-            throw new ForbiddenException("You have to login to update task status");
-        }
+        //if (userUtils.getCurrentUser() == null) {
+        //    throw new ForbiddenException("You have to login to update task status");
+        //}
         var taskStatus = taskStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task status with id " + id + " not found"));
         taskStatusMapper.update(dto, taskStatus);
@@ -60,9 +60,9 @@ public class TaskStatusService {
     }
 
     public void delete(Long id) {
-        if (userUtils.getCurrentUser() == null) {
-            throw new ForbiddenException("You have to login to delete task status");
-        }
+        //if (userUtils.getCurrentUser() == null) {
+        //    throw new ForbiddenException("You have to login to delete task status");
+        //}
         var taskStatus = taskStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task status with id " + id + " not found"));
         taskStatusRepository.delete(taskStatus);
