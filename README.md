@@ -1,7 +1,7 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/d1z3d/java-project-99/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/d1z3d/java-project-99/actions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/67fc23206d876cac512e/maintainability)](https://codeclimate.com/github/d1z3d/java-project-99/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/67fc23206d876cac512e/test_coverage)](https://codeclimate.com/github/d1z3d/java-project-99/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/88b4584f1792b89cd0bb/maintainability)](https://codeclimate.com/github/d1z3d/java-project-99/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/88b4584f1792b89cd0bb/test_coverage)](https://codeclimate.com/github/d1z3d/java-project-99/test_coverage)
 
 ### Описание проекта
 [Task manager](https://task-manager-jp0k.onrender.com) - система управления задачами, подобная http://www.redmine.org/. Она позволяет ставить задачи, назначать исполнителей и менять их статусы.
