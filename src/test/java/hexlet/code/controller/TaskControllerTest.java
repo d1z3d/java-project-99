@@ -68,7 +68,8 @@ public class TaskControllerTest {
 
     @Test
     public void testIndex() throws Exception {
-        var response = mockMvc.perform(get(taskRoutes.indexPath()))
+        var response = mockMvc.perform(get(taskRoutes.indexPath())
+                        .header(HttpHeaders.AUTHORIZATION, token))
                 .andExpect(status().isOk())
                 .andReturn();
         var body = response.getResponse().getContentAsString();
@@ -77,7 +78,8 @@ public class TaskControllerTest {
     @Test
     public void testShow() throws Exception {
         taskRepository.save(testTask);
-        var response = mockMvc.perform(get(taskRoutes.showPath(testTask.getId())))
+        var response = mockMvc.perform(get(taskRoutes.showPath(testTask.getId()))
+                        .header(HttpHeaders.AUTHORIZATION, token))
                 .andExpect(status().isOk())
                 .andReturn();
         var body = response.getResponse().getContentAsString();

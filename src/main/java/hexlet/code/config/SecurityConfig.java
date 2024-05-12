@@ -37,16 +37,15 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/index.html"),
             new AntPathRequestMatcher("/assets/**"),
             new AntPathRequestMatcher("/welcome"),
-            new AntPathRequestMatcher("/welcome"),
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/v3/api-docs/**"),
             new AntPathRequestMatcher("/swagger-ui/**"),
             new AntPathRequestMatcher("/swagger-ui.html"),
             new AntPathRequestMatcher("/api/login", HttpMethod.POST.name()),
-            new AntPathRequestMatcher("/api/users", HttpMethod.POST.name()),
-            new AntPathRequestMatcher("/api/users", HttpMethod.GET.name()),
+            new AntPathRequestMatcher("/api/users", HttpMethod.POST.name())
+            /*new AntPathRequestMatcher("/api/users", HttpMethod.GET.name()),
             new AntPathRequestMatcher("/api/task_statuses/**", HttpMethod.GET.name()),
-            new AntPathRequestMatcher("/api/tasks/**", HttpMethod.GET.name())
+            new AntPathRequestMatcher("/api/tasks/**", HttpMethod.GET.name())*/
     );
 
     @Bean
