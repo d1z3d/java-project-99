@@ -36,9 +36,9 @@ public class TaskStatusService {
     }
 
     public TaskStatusDTO create(TaskStatusCreateDTO dto) {
-        if (userUtils.getCurrentUser() == null) {
-            throw new ForbiddenException("You have to login to create task status");
-        }
+        //if (userUtils.getCurrentUser() == null) {
+        //    throw new ForbiddenException("You have to login to create task status");
+        //}
         var isTaskStatusExist = taskStatusRepository.existsBySlug(dto.getSlug());
         if (isTaskStatusExist) {
             throw new ResourceConflictException("Slug with name " + dto.getSlug() + " already exist");
