@@ -1,0 +1,19 @@
+spring:
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  profiles:
+    active: development
+  output:
+    ansi:
+      enabled: always
+
+rsa:
+    private-key: classpath:certs/private.pem
+    public-key: classpath:certs/public.pem
+
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha
