@@ -1,11 +1,11 @@
-package hexlet.code.util.routes;
+package hexlet.code.utils.routes;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class TaskStatusRoutes {
+public class TaskRoutes {
     public String indexPath() {
-        return "/api/task_statuses";
+        return "/api/tasks";
     }
     public String showPath(Long id) {
         return indexPath() + "/" + id;

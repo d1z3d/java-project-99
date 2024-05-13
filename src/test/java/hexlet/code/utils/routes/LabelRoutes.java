@@ -1,11 +1,11 @@
-package hexlet.code.util.routes;
+package hexlet.code.utils.routes;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserRoutes {
+public class LabelRoutes {
     public String indexPath() {
-        return "/api/users";
+        return "/api/labels";
     }
     public String showPath(Long id) {
         return indexPath() + "/" + id;

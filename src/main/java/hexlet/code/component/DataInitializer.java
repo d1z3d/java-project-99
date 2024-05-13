@@ -1,6 +1,6 @@
 package hexlet.code.app.component;
 
-import hexlet.code.dto.label.LabelCreateDTO;
+import hexlet.code.dto.label.LabelModernizeDTO;
 import hexlet.code.dto.taskstatus.TaskStatusCreateDTO;
 import hexlet.code.dto.user.UserCreateDTO;
 import hexlet.code.mapper.LabelMapper;
@@ -45,9 +45,9 @@ public class DataInitializer implements ApplicationRunner {
             taskStatusRepository.save(taskStatus);
         });
 
-        Set<LabelCreateDTO> labels = Set.of(
-                new LabelCreateDTO("bug"),
-                new LabelCreateDTO("feature")
+        Set<LabelModernizeDTO> labels = Set.of(
+                new LabelModernizeDTO("bug"),
+                new LabelModernizeDTO("feature")
         );
         labels.forEach(dto -> {
             var label = labelMapper.map(dto);

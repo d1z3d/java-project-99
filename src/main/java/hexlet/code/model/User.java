@@ -1,12 +1,12 @@
 package hexlet.code.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;
@@ -24,9 +24,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 @EntityListeners(AuditingEntityListener.class)
-@ToString(includeFieldNames = true, onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
@@ -43,7 +44,6 @@ public class User implements BaseEntity, UserDetails {
     @ToString.Include
     private String lastName;
 
-    @Column(unique = true)
     @Email
     @ToString.Include
     private String email;
@@ -93,4 +93,3 @@ public class User implements BaseEntity, UserDetails {
         return true;
     }
 }
-

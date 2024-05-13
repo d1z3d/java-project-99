@@ -15,7 +15,7 @@ group = "hexlet.code"
 version = "0.0.1-SNAPSHOT"
 
 application {
-	mainClass.set("hexlet.code.AppApplication");
+	mainClass.set("hexlet.code.AppApplication")
 }
 
 configurations {

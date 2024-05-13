@@ -1,4 +1,4 @@
-package hexlet.code.util.modelgenerator;
+package hexlet.code.utils.modelgenerator;
 
 import hexlet.code.model.TaskStatus;
 import jakarta.annotation.PostConstruct;

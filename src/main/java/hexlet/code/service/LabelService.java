@@ -1,8 +1,7 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.label.LabelCreateDTO;
+import hexlet.code.dto.label.LabelModernizeDTO;
 import hexlet.code.dto.label.LabelDTO;
-import hexlet.code.dto.label.LabelUpdateDTO;
 import hexlet.code.exception.ResourceConflictException;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.exception.UnprocessableEntityException;
@@ -34,7 +33,7 @@ public class LabelService {
         return labelMapper.map(label);
     }
 
-    public LabelDTO create(LabelCreateDTO dto) {
+    public LabelDTO create(LabelModernizeDTO dto) {
         var isLabelExist = labelRepository.existsByName(dto.getName());
         if (isLabelExist) {
             throw new ResourceConflictException("Label with name " + dto.getName() + " already exist");
@@ -44,7 +43,7 @@ public class LabelService {
         return labelMapper.map(label);
     }
 
-    public LabelDTO update(Long id, LabelUpdateDTO dto) {
+    public LabelDTO update(Long id, LabelModernizeDTO dto) {
         var label = labelRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Label with id " + id + " not found"));
         labelMapper.update(dto, label);

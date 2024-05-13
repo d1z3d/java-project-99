@@ -5,10 +5,9 @@ import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
-import hexlet.code.repository.TaskStatusRepository;
-import hexlet.code.util.AuthenticationUtils;
-import hexlet.code.util.modelgenerator.TaskModelGenerator;
-import hexlet.code.util.routes.TaskRoutes;
+import hexlet.code.utils.AuthenticationUtils;
+import hexlet.code.utils.modelgenerator.TaskModelGenerator;
+import hexlet.code.utils.routes.TaskRoutes;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +19,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
@@ -42,8 +39,6 @@ public class TaskControllerTest {
     @Autowired
     private TaskRepository taskRepository;
     @Autowired
-    private TaskStatusRepository taskStatusRepository;
-    @Autowired
     private LabelRepository labelRepository;
     @Autowired
     private AuthenticationUtils authenticationUtils;
@@ -63,7 +58,6 @@ public class TaskControllerTest {
     @AfterEach
     public void removeAll() {
         taskRepository.deleteAll();
-        labelRepository.deleteAll();
     }
 
     @Test
@@ -104,58 +98,48 @@ public class TaskControllerTest {
         var body = response.getResponse().getContentAsString();
         assertThatJson(body).and(
                 child -> child.node("index").isEqualTo(dto.getIndex()),
-                child -> child.node("assignee_id").isEqualTo(dto.getAssigneeId()),
                 child -> child.node("title").isEqualTo(dto.getTitle()),
                 child -> child.node("status").isEqualTo(dto.getStatus())
         );
     }
     @Test
     public void testUpdate() throws Exception {
-        var labels = labelRepository.findAll().stream()
-                .map(Label::getId)
-                .collect(Collectors.toSet());
         taskRepository.save(testTask);
-        Map<String, Object> data = new HashMap<>();
-        data.put("index", 1234);
-        data.put("assignee_id", 1L);
-        data.put("title", "newTaskTitle");
-        data.put("content", "newTaskTitle");
-        data.put("status", "to_review");
-        data.put("taskLabelIds", labels);
+        var taskUpdateDTO = Instancio.of(taskModelGenerator.getTaskUpdateDTOModel()).create();
 
         var request = put(taskRoutes.updatePath(testTask.getId()))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(data));
+                .content(objectMapper.writeValueAsString(taskUpdateDTO));
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
         var taskStatus = taskRepository.findById(testTask.getId()).get();
-        assertThat(taskStatus.getIndex()).isEqualTo(data.get("index"));
-        assertThat(taskStatus.getAssignee().getId()).isEqualTo(data.get("assignee_id"));
-        assertThat(taskStatus.getName()).isEqualTo(data.get("title"));
-        assertThat(taskStatus.getDescription()).isEqualTo(data.get("content"));
-        assertThat(taskStatus.getTaskStatus().getSlug()).isEqualTo(data.get("status"));
+        assertThat(taskStatus.getIndex()).isEqualTo(taskUpdateDTO.getIndex().get());
+        assertThat(taskStatus.getAssignee().getId()).isEqualTo(taskUpdateDTO.getAssigneeId().get());
+        assertThat(taskStatus.getName()).isEqualTo(taskUpdateDTO.getTitle().get());
+        assertThat(taskStatus.getDescription()).isEqualTo(taskUpdateDTO.getContent().get());
+        assertThat(taskStatus.getTaskStatus().getSlug()).isEqualTo(taskUpdateDTO.getStatus().get());
         assertThat(taskStatus.getLabels().stream()
                     .map(Label::getId)
                     .collect(Collectors.toSet()))
-                .isEqualTo(data.get("taskLabelIds"));
+                .isEqualTo(taskUpdateDTO.getTaskLabelIds().get());
     }
     @Test
     public void testPartiallyUpdate() throws Exception {
         taskRepository.save(testTask);
-        Map<String, String> data = new HashMap<>();
-        data.put("title", "newTaskTitle");
+        var taskUpdateDTO = Instancio.of(taskModelGenerator.getTaskPartiallyDTOModel()).create();
 
         var request = put(taskRoutes.updatePath(testTask.getId()))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(data));
+                .content(objectMapper.writeValueAsString(taskUpdateDTO));
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
-        var taskStatus = taskRepository.findById(testTask.getId()).get();
-        assertThat(taskStatus.getName()).isEqualTo("newTaskTitle");
+        var task = taskRepository.findById(testTask.getId()).get();
+        assertThat(task.getName())
+                .isEqualTo(taskUpdateDTO.getTitle().get());
     }
     @Test
     public void testDelete() throws Exception {
@@ -163,7 +147,7 @@ public class TaskControllerTest {
         mockMvc.perform(delete(taskRoutes.deletePath(testTask.getId()))
                         .header(HttpHeaders.AUTHORIZATION, token))
                 .andExpect(status().isNoContent());
-        var isLabelExist = labelRepository.existsById(testTask.getId());
-        assertThat(isLabelExist).isFalse();
+        var isTaskExist = taskRepository.existsById(testTask.getId());
+        assertThat(isTaskExist).isFalse();
     }
 }

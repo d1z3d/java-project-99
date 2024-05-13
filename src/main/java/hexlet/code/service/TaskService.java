@@ -10,7 +10,6 @@ import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.specification.TaskSpecification;
-import hexlet.code.utils.UserUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,6 @@ public class TaskService {
     private final TaskStatusRepository taskStatusRepository;
     private final UserRepository userRepository;
     private final TaskMapper taskMapper;
-    private final UserUtils userUtils;
     private final TaskSpecification taskSpecification;
 
     public List<TaskDTO> getAll(TaskParamsDTO params) {

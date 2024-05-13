@@ -3,11 +3,10 @@ package hexlet.code.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
-import hexlet.code.util.AuthenticationUtils;
-import hexlet.code.util.modelgenerator.TaskStatusModelGenerator;
-import hexlet.code.util.routes.TaskStatusRoutes;
+import hexlet.code.utils.AuthenticationUtils;
+import hexlet.code.utils.modelgenerator.TaskStatusModelGenerator;
+import hexlet.code.utils.routes.TaskStatusRoutes;
 import org.instancio.Instancio;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +54,6 @@ public class TaskStatusControllerTest {
         token = authenticationUtils.getToken("hexlet@example.com", "qwerty");
     }
 
-    @AfterEach
-    public void removeAll() {
-        taskStatusRepository.deleteAll();
-    }
 
     @Test
     public void testIndex() throws Exception {

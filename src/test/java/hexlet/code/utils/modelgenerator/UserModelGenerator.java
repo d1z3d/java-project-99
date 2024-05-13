@@ -1,4 +1,4 @@
-package hexlet.code.util.modelgenerator;
+package hexlet.code.utils.modelgenerator;
 
 import hexlet.code.model.User;
 import jakarta.annotation.PostConstruct;
@@ -29,5 +29,6 @@ public class UserModelGenerator {
                 .supply(Select.field(User::getLastName), () -> faker.name().lastName())
                 .supply(Select.field(User::getPassword), () -> faker.internet().password())
                 .toModel();
+
     }
 }

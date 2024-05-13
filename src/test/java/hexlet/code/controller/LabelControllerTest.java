@@ -3,9 +3,9 @@ package hexlet.code.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
-import hexlet.code.util.AuthenticationUtils;
-import hexlet.code.util.modelgenerator.LabelModelGenerator;
-import hexlet.code.util.routes.LabelRoutes;
+import hexlet.code.utils.AuthenticationUtils;
+import hexlet.code.utils.modelgenerator.LabelModelGenerator;
+import hexlet.code.utils.routes.LabelRoutes;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,9 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -94,18 +91,17 @@ public class LabelControllerTest {
     @Test
     public void testUpdate() throws Exception {
         labelRepository.save(testLabel);
-        Map<String, String> data = new HashMap<>();
-        data.put("name", "new label");
+        var labelUpdateDTO = Instancio.of(labelModelGenerator.getLabelModernizeDTOModel()).create();
 
         var request = put(labelRoutes.updatePath(testLabel.getId()))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(data));
+                .content(objectMapper.writeValueAsString(labelUpdateDTO));
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
         var label = labelRepository.findById(testLabel.getId()).get();
-        assertThat(label.getName()).isEqualTo("new label");
+        assertThat(label.getName()).isEqualTo(labelUpdateDTO.getName());
     }
 
     @Test
