@@ -17,8 +17,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.HashMap;
-
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -102,28 +100,26 @@ public class UsersControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        var data = new HashMap<>();
-        data.put("firstName", "Andrey");
-        data.put("lastName", "Borychev");
-        data.put("email", "borychev.au@gmail.com");
+        var userUpdate = Instancio.of(userModelGenerator.getUserModel()).create();
 
         var request = put(userRoutes.updatePath(testUser.getId()))
                     .header(HttpHeaders.AUTHORIZATION, tokenTestUser)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(data));
+                .content(objectMapper.writeValueAsString(userUpdate));
 
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
         var user = userRepository.findById(testUser.getId()).get();
-        assertThat(user.getFirstName()).isEqualTo("Andrey");
-        assertThat(user.getLastName()).isEqualTo("Borychev");
-        assertThat(user.getEmail()).isEqualTo("borychev.au@gmail.com");
+        assertThat(user.getFirstName()).isEqualTo(userUpdate.getFirstName());
+        assertThat(user.getLastName()).isEqualTo(userUpdate.getLastName());
+        assertThat(user.getEmail()).isEqualTo(userUpdate.getEmail());
+        assertThat(user.getPassword()).isEqualTo(userUpdate.getPassword());
 
         var request2 = put(userRoutes.updatePath(testUser.getId()))
                     .header(HttpHeaders.AUTHORIZATION, tokenAdmin)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(data));
+                .content(objectMapper.writeValueAsString(userUpdate));
         var result = mockMvc.perform(request2)
                 .andExpect(status().isForbidden())
                 .andReturn();

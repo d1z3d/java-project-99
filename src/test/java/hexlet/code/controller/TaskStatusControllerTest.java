@@ -16,9 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -98,37 +95,35 @@ public class TaskStatusControllerTest {
     @Test
     public void testUpdate() throws Exception {
         taskStatusRepository.save(testTaskStatus);
-        Map<String, String> data = new HashMap<>();
-        data.put("name", "NewTaskStatus");
-        data.put("slug", "new");
+        var taskStatusUpdateDTO = Instancio.of(taskStatusModelGenerator.getTaskStatusUpdateDTOModel()).create();
 
         var request = put(taskStatusRoutes.updatePath(testTaskStatus.getId()))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(data));
+                .content(objectMapper.writeValueAsString(taskStatusUpdateDTO));
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
         var taskStatus = taskStatusRepository.findById(testTaskStatus.getId()).get();
-        assertThat(taskStatus.getName()).isEqualTo("NewTaskStatus");
-        assertThat(taskStatus.getSlug()).isEqualTo("new");
+        assertThat(taskStatus.getName()).isEqualTo(taskStatusUpdateDTO.getName().get());
+        assertThat(taskStatus.getSlug()).isEqualTo(taskStatusUpdateDTO.getSlug().get());
     }
 
     @Test
     public void testPartiallyUpdate() throws Exception {
         taskStatusRepository.save(testTaskStatus);
-        Map<String, String> data = new HashMap<>();
-        data.put("name", "NewTaskStatus");
+        var taskStatusUpdateDTO = Instancio.of(taskStatusModelGenerator.getTaskStatusUpdateDTOModel()).create();
+        taskStatusUpdateDTO.setSlug(null);
 
         var request = put(taskStatusRoutes.updatePath(testTaskStatus.getId()))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(data));
+                .content(objectMapper.writeValueAsString(taskStatusUpdateDTO));
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
         var taskStatus = taskStatusRepository.findById(testTaskStatus.getId()).get();
-        assertThat(taskStatus.getName()).isEqualTo("NewTaskStatus");
+        assertThat(taskStatus.getName()).isEqualTo(taskStatusUpdateDTO.getName().get());
         assertThat(taskStatus.getSlug()).isEqualTo(testTaskStatus.getSlug());
     }
 

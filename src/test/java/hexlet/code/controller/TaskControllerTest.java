@@ -3,7 +3,6 @@ package hexlet.code.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.model.Label;
 import hexlet.code.model.Task;
-import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.utils.AuthenticationUtils;
 import hexlet.code.utils.modelgenerator.TaskModelGenerator;
@@ -38,8 +37,6 @@ public class TaskControllerTest {
     private ObjectMapper objectMapper;
     @Autowired
     private TaskRepository taskRepository;
-    @Autowired
-    private LabelRepository labelRepository;
     @Autowired
     private AuthenticationUtils authenticationUtils;
     @Autowired
