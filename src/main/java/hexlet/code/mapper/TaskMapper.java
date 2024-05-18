@@ -1,6 +1,5 @@
 package hexlet.code.mapper;
 
-import hexlet.code.dto.task.TaskCreateDTO;
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskUpdateDTO;
 import hexlet.code.exception.ResourceNotFoundException;
@@ -46,7 +45,7 @@ public abstract class TaskMapper {
     @Mapping(target = "description", source = "content")
     @Mapping(target = "taskStatus.slug", source = "status")
     @Mapping(target = "labels", source = "taskLabelIds", qualifiedByName = "labelIdsToLabels")
-    public abstract Task map(TaskCreateDTO model);
+    public abstract Task map(TaskDTO model);
 
     @Mapping(target = "assignee", source = "assigneeId")
     @Mapping(target = "name", source = "title")

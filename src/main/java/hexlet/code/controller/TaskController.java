@@ -1,6 +1,5 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.task.TaskCreateDTO;
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskParamsDTO;
 import hexlet.code.dto.task.TaskUpdateDTO;
@@ -47,7 +46,7 @@ public class TaskController {
     @PostMapping("/tasks")
     @ResponseStatus(HttpStatus.CREATED)
     @SecurityRequirement(name = "Bearer Authentication")
-    public TaskDTO create(@Valid @RequestBody TaskCreateDTO dto) {
+    public TaskDTO create(@RequestBody TaskDTO dto) {
         return taskService.create(dto);
     }
 

@@ -1,6 +1,5 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.task.TaskCreateDTO;
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskParamsDTO;
 import hexlet.code.dto.task.TaskUpdateDTO;
@@ -39,7 +38,7 @@ public class TaskService {
         return taskMapper.map(task);
     }
 
-    public TaskDTO create(TaskCreateDTO dto) {
+    public TaskDTO create(TaskDTO dto) {
         var task = taskMapper.map(dto);
         var taskStatus = taskStatusRepository.findBySlug(dto.getStatus())
                 .orElseThrow(() -> new ResourceNotFoundException("Task status with " + dto.getStatus() + " not found"));
