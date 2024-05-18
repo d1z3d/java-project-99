@@ -1,6 +1,5 @@
 package hexlet.code.dto.taskstatus;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskStatusCreateDTO {
-    @NotBlank
+public class TaskStatusCreateUpdateDTO {
     private String name;
-    @NotBlank
     private String slug;
 }

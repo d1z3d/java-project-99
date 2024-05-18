@@ -2,11 +2,9 @@ package hexlet.code.controller;
 
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskParamsDTO;
-import hexlet.code.dto.task.TaskUpdateDTO;
 import hexlet.code.service.TaskService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +50,7 @@ public class TaskController {
 
     @PutMapping("/tasks/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public TaskDTO update(@PathVariable("id") Long id, @Valid @RequestBody TaskUpdateDTO dto) {
+    public TaskDTO update(@PathVariable("id") Long id, @RequestBody TaskDTO dto) {
         return taskService.update(id, dto);
     }
 

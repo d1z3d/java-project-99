@@ -95,7 +95,7 @@ public class TaskStatusControllerTest {
     @Test
     public void testUpdate() throws Exception {
         taskStatusRepository.save(testTaskStatus);
-        var taskStatusUpdateDTO = Instancio.of(taskStatusModelGenerator.getTaskStatusUpdateDTOModel()).create();
+        var taskStatusUpdateDTO = Instancio.of(taskStatusModelGenerator.getTaskStatusCreateUpdateDTOModel()).create();
 
         var request = put(taskStatusRoutes.updatePath(testTaskStatus.getId()))
                 .header(HttpHeaders.AUTHORIZATION, token)
@@ -105,14 +105,14 @@ public class TaskStatusControllerTest {
                 .andExpect(status().isOk());
 
         var taskStatus = taskStatusRepository.findById(testTaskStatus.getId()).get();
-        assertThat(taskStatus.getName()).isEqualTo(taskStatusUpdateDTO.getName().get());
-        assertThat(taskStatus.getSlug()).isEqualTo(taskStatusUpdateDTO.getSlug().get());
+        assertThat(taskStatus.getName()).isEqualTo(taskStatusUpdateDTO.getName());
+        assertThat(taskStatus.getSlug()).isEqualTo(taskStatusUpdateDTO.getSlug());
     }
 
     @Test
     public void testPartiallyUpdate() throws Exception {
         taskStatusRepository.save(testTaskStatus);
-        var taskStatusUpdateDTO = Instancio.of(taskStatusModelGenerator.getTaskStatusUpdateDTOModel()).create();
+        var taskStatusUpdateDTO = Instancio.of(taskStatusModelGenerator.getTaskStatusCreateUpdateDTOModel()).create();
         taskStatusUpdateDTO.setSlug(null);
 
         var request = put(taskStatusRoutes.updatePath(testTaskStatus.getId()))
@@ -123,7 +123,7 @@ public class TaskStatusControllerTest {
                 .andExpect(status().isOk());
 
         var taskStatus = taskStatusRepository.findById(testTaskStatus.getId()).get();
-        assertThat(taskStatus.getName()).isEqualTo(taskStatusUpdateDTO.getName().get());
+        assertThat(taskStatus.getName()).isEqualTo(taskStatusUpdateDTO.getName());
         assertThat(taskStatus.getSlug()).isEqualTo(testTaskStatus.getSlug());
     }
 

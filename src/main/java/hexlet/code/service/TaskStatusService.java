@@ -1,8 +1,7 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.taskstatus.TaskStatusCreateDTO;
+import hexlet.code.dto.taskstatus.TaskStatusCreateUpdateDTO;
 import hexlet.code.dto.taskstatus.TaskStatusDTO;
-import hexlet.code.dto.taskstatus.TaskStatusUpdateDTO;
 import hexlet.code.exception.ResourceConflictException;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.TaskStatusMapper;
@@ -34,7 +33,7 @@ public class TaskStatusService {
         return taskStatusMapper.map(taskStatus);
     }
 
-    public TaskStatusDTO create(TaskStatusCreateDTO dto) {
+    public TaskStatusDTO create(TaskStatusCreateUpdateDTO dto) {
         var isTaskStatusExist = taskStatusRepository.existsBySlug(dto.getSlug());
         if (isTaskStatusExist) {
             throw new ResourceConflictException("Slug with name " + dto.getSlug() + " already exist");
@@ -44,7 +43,7 @@ public class TaskStatusService {
         return taskStatusMapper.map(taskStatus);
     }
 
-    public TaskStatusDTO update(Long id, TaskStatusUpdateDTO dto) {
+    public TaskStatusDTO update(Long id, TaskStatusCreateUpdateDTO dto) {
         var taskStatus = taskStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task status with id " + id + " not found"));
         taskStatusMapper.update(dto, taskStatus);

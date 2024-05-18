@@ -1,8 +1,8 @@
 package hexlet.code.app.component;
 
 import hexlet.code.dto.label.LabelModernizeDTO;
-import hexlet.code.dto.taskstatus.TaskStatusCreateDTO;
-import hexlet.code.dto.user.UserCreateDTO;
+import hexlet.code.dto.taskstatus.TaskStatusCreateUpdateDTO;
+import hexlet.code.dto.user.UserCreateUpdateDTO;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.repository.LabelRepository;
@@ -28,17 +28,17 @@ public class DataInitializer implements ApplicationRunner {
     private final LabelRepository labelRepository;
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        var userDetails = new UserCreateDTO();
+        var userDetails = new UserCreateUpdateDTO();
         userDetails.setEmail("hexlet@example.com");
         userDetails.setPassword("qwerty");
         userService.create(userDetails);
 
-        List<TaskStatusCreateDTO> taskStatuses = Arrays.asList(
-                new TaskStatusCreateDTO("Draft", "draft"),
-                new TaskStatusCreateDTO("ToReview", "to_review"),
-                new TaskStatusCreateDTO("ToBeFixed", "to_be_fixed"),
-                new TaskStatusCreateDTO("ToPublish", "to_publish"),
-                new TaskStatusCreateDTO("Published", "published")
+        List<TaskStatusCreateUpdateDTO> taskStatuses = Arrays.asList(
+                new TaskStatusCreateUpdateDTO("Draft", "draft"),
+                new TaskStatusCreateUpdateDTO("ToReview", "to_review"),
+                new TaskStatusCreateUpdateDTO("ToBeFixed", "to_be_fixed"),
+                new TaskStatusCreateUpdateDTO("ToPublish", "to_publish"),
+                new TaskStatusCreateUpdateDTO("Published", "published")
         );
         taskStatuses.forEach(dto -> {
             var taskStatus = taskStatusMapper.map(dto);

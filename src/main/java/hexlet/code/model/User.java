@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,6 +50,7 @@ public class User implements BaseEntity, UserDetails {
     private String email;
 
     @NotBlank
+    @Size(min = 3)
     private String password;
 
     @CreatedDate

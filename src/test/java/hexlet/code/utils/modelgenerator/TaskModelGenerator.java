@@ -1,7 +1,6 @@
 package hexlet.code.utils.modelgenerator;
 
-import hexlet.code.dto.task.TaskCreateDTO;
-import hexlet.code.dto.task.TaskUpdateDTO;
+import hexlet.code.dto.task.TaskCreateUpdateDTO;
 import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.repository.LabelRepository;
@@ -13,7 +12,6 @@ import net.datafaker.Faker;
 import org.instancio.Instancio;
 import org.instancio.Model;
 import org.instancio.Select;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +21,7 @@ import java.util.stream.Collectors;
 @Getter
 public class TaskModelGenerator {
     private Model<Task> taskModel;
-    private Model<TaskCreateDTO> taskCreateDTOModel;
-    private Model<TaskUpdateDTO> taskUpdateDTOModel;
-    private Model<TaskUpdateDTO> taskPartiallyDTOModel;
+    private Model<TaskCreateUpdateDTO> taskCreateUpdateDTOModel;
     @Autowired
     private Faker faker;
     @Autowired
@@ -62,28 +58,11 @@ public class TaskModelGenerator {
                 .supply(Select.field(Task::getIndex), () -> faker.number().positive())
                 .supply(Select.field(Task::getTaskStatus), () -> taskStatus)
                 .toModel();
-        taskCreateDTOModel = Instancio.of(TaskCreateDTO.class)
-                .ignore(Select.field(TaskCreateDTO::getAssigneeId))
-                .supply(Select.field(TaskCreateDTO::getIndex), () -> faker.number().positive())
-                .supply(Select.field(TaskCreateDTO::getTitle), () -> faker.name().title())
-                .supply(Select.field(TaskCreateDTO::getStatus), taskStatus::getSlug)
-                .toModel();
-        taskUpdateDTOModel = Instancio.of(TaskUpdateDTO.class)
-                .supply(Select.field(TaskUpdateDTO::getIndex), () -> JsonNullable.of(faker.number().positive()))
-                .supply(Select.field(TaskUpdateDTO::getAssigneeId), () -> JsonNullable.of(user.getId()))
-                .supply(Select.field(TaskUpdateDTO::getTitle), () -> JsonNullable.of(faker.name().title()))
-                .supply(Select.field(TaskUpdateDTO::getContent),
-                        () -> JsonNullable.of(faker.lorem().characters(1, 255)))
-                .supply(Select.field(TaskUpdateDTO::getStatus), () -> JsonNullable.of(taskStatus.getSlug()))
-                .supply(Select.field(TaskUpdateDTO::getTaskLabelIds), () -> JsonNullable.of(labels))
-                .toModel();
-        taskPartiallyDTOModel = Instancio.of(TaskUpdateDTO.class)
-                .ignore(Select.field(TaskUpdateDTO::getIndex))
-                .ignore(Select.field(TaskUpdateDTO::getAssigneeId))
-                .ignore(Select.field(TaskUpdateDTO::getContent))
-                .ignore(Select.field(TaskUpdateDTO::getStatus))
-                .ignore(Select.field(TaskUpdateDTO::getTaskLabelIds))
-                .supply(Select.field(TaskUpdateDTO::getTitle), () -> JsonNullable.of(faker.name().title()))
+        taskCreateUpdateDTOModel = Instancio.of(TaskCreateUpdateDTO.class)
+                .ignore(Select.field(TaskCreateUpdateDTO::getAssigneeId))
+                .supply(Select.field(TaskCreateUpdateDTO::getIndex), () -> faker.number().positive())
+                .supply(Select.field(TaskCreateUpdateDTO::getTitle), () -> faker.name().title())
+                .supply(Select.field(TaskCreateUpdateDTO::getStatus), taskStatus::getSlug)
                 .toModel();
     }
 }

@@ -1,8 +1,7 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.taskstatus.TaskStatusCreateDTO;
+import hexlet.code.dto.taskstatus.TaskStatusCreateUpdateDTO;
 import hexlet.code.dto.taskstatus.TaskStatusDTO;
-import hexlet.code.dto.taskstatus.TaskStatusUpdateDTO;
 import hexlet.code.service.TaskStatusService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,13 +45,13 @@ public class TaskStatusController {
     @PostMapping("/task_statuses")
     @ResponseStatus(HttpStatus.CREATED)
     @SecurityRequirement(name = "Bearer Authentication")
-    public TaskStatusDTO create(@Valid @RequestBody TaskStatusCreateDTO dto) {
+    public TaskStatusDTO create(@Valid @RequestBody TaskStatusCreateUpdateDTO dto) {
         return taskStatusService.create(dto);
     }
 
     @PutMapping("/task_statuses/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public TaskStatusDTO update(@PathVariable("id") Long id, @Valid @RequestBody TaskStatusUpdateDTO dto) {
+    public TaskStatusDTO update(@PathVariable("id") Long id, @RequestBody TaskStatusCreateUpdateDTO dto) {
         return taskStatusService.update(id, dto);
     }
 

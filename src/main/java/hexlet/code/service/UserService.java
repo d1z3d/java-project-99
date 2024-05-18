@@ -1,6 +1,6 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.user.UserCreateDTO;
+import hexlet.code.dto.user.UserCreateUpdateDTO;
 import hexlet.code.dto.user.UserDTO;
 import hexlet.code.dto.user.UserUpdateDTO;
 import hexlet.code.exception.ForbiddenException;
@@ -41,7 +41,7 @@ public class UserService implements UserDetailsManager {
         return userMapper.map(user);
     }
 
-    public UserDTO create(UserCreateDTO dto) {
+    public UserDTO create(UserCreateUpdateDTO dto) {
         var userIsExist = userRepository.findByEmail(dto.getEmail());
         if (userIsExist.isPresent()) {
             throw new ResourceConflictException("User with email " + dto.getEmail() + " already exist");

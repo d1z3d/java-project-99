@@ -1,7 +1,6 @@
 package hexlet.code.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.utils.AuthenticationUtils;
@@ -17,8 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.stream.Collectors;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,7 +80,7 @@ public class TaskControllerTest {
     }
     @Test
     public void testCreate() throws Exception {
-        var dto = Instancio.of(taskModelGenerator.getTaskCreateDTOModel()).create();
+        var dto = Instancio.of(taskModelGenerator.getTaskCreateUpdateDTOModel()).create();
         var request = post(taskRoutes.createPath())
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -102,7 +99,7 @@ public class TaskControllerTest {
     @Test
     public void testUpdate() throws Exception {
         taskRepository.save(testTask);
-        var taskUpdateDTO = Instancio.of(taskModelGenerator.getTaskUpdateDTOModel()).create();
+        var taskUpdateDTO = Instancio.of(taskModelGenerator.getTaskCreateUpdateDTOModel()).create();
 
         var request = put(taskRoutes.updatePath(testTask.getId()))
                 .header(HttpHeaders.AUTHORIZATION, token)
@@ -112,20 +109,15 @@ public class TaskControllerTest {
                 .andExpect(status().isOk());
 
         var taskStatus = taskRepository.findById(testTask.getId()).get();
-        assertThat(taskStatus.getIndex()).isEqualTo(taskUpdateDTO.getIndex().get());
-        assertThat(taskStatus.getAssignee().getId()).isEqualTo(taskUpdateDTO.getAssigneeId().get());
-        assertThat(taskStatus.getName()).isEqualTo(taskUpdateDTO.getTitle().get());
-        assertThat(taskStatus.getDescription()).isEqualTo(taskUpdateDTO.getContent().get());
-        assertThat(taskStatus.getTaskStatus().getSlug()).isEqualTo(taskUpdateDTO.getStatus().get());
-        assertThat(taskStatus.getLabels().stream()
-                    .map(Label::getId)
-                    .collect(Collectors.toSet()))
-                .isEqualTo(taskUpdateDTO.getTaskLabelIds().get());
+        assertThat(taskStatus.getIndex()).isEqualTo(taskUpdateDTO.getIndex());
+        assertThat(taskStatus.getName()).isEqualTo(taskUpdateDTO.getTitle());
+        assertThat(taskStatus.getDescription()).isEqualTo(taskUpdateDTO.getContent());
+        assertThat(taskStatus.getTaskStatus().getSlug()).isEqualTo(taskUpdateDTO.getStatus());
     }
     @Test
     public void testPartiallyUpdate() throws Exception {
         taskRepository.save(testTask);
-        var taskUpdateDTO = Instancio.of(taskModelGenerator.getTaskPartiallyDTOModel()).create();
+        var taskUpdateDTO = Instancio.of(taskModelGenerator.getTaskCreateUpdateDTOModel()).create();
 
         var request = put(taskRoutes.updatePath(testTask.getId()))
                 .header(HttpHeaders.AUTHORIZATION, token)
@@ -136,7 +128,7 @@ public class TaskControllerTest {
 
         var task = taskRepository.findById(testTask.getId()).get();
         assertThat(task.getName())
-                .isEqualTo(taskUpdateDTO.getTitle().get());
+                .isEqualTo(taskUpdateDTO.getTitle());
     }
     @Test
     public void testDelete() throws Exception {

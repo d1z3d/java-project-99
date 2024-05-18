@@ -14,7 +14,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskCreateDTO {
+public class TaskCreateUpdateDTO {
     private Integer index;
     @JsonProperty("assignee_id")
     private Long assigneeId;
