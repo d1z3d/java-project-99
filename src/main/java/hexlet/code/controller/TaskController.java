@@ -1,5 +1,6 @@
 package hexlet.code.controller;
 
+import hexlet.code.dto.task.TaskCreateUpdateDTO;
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskParamsDTO;
 import hexlet.code.service.TaskService;
@@ -44,13 +45,13 @@ public class TaskController {
     @PostMapping("/tasks")
     @ResponseStatus(HttpStatus.CREATED)
     @SecurityRequirement(name = "Bearer Authentication")
-    public TaskDTO create(@RequestBody TaskDTO dto) {
+    public TaskDTO create(@RequestBody TaskCreateUpdateDTO dto) {
         return taskService.create(dto);
     }
 
     @PutMapping("/tasks/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public TaskDTO update(@PathVariable("id") Long id, @RequestBody TaskDTO dto) {
+    public TaskDTO update(@PathVariable("id") Long id, @RequestBody TaskCreateUpdateDTO dto) {
         return taskService.update(id, dto);
     }
 
