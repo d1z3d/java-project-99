@@ -40,11 +40,11 @@ public class TaskService {
 
     public TaskDTO create(TaskCreateUpdateDTO dto) {
         var task = taskMapper.map(dto);
-        var taskStatus = taskStatusRepository.findBySlug(dto.getStatus())
+        var taskStatus = taskStatusRepository.findBySlug(dto.getStatus().get())
                 .orElseThrow(() -> new ResourceNotFoundException("Task status with " + dto.getStatus() + " not found"));
         task.setTaskStatus(taskStatus);
         if (dto.getAssigneeId() != null) {
-            var user = userRepository.findById(dto.getAssigneeId())
+            var user = userRepository.findById(dto.getAssigneeId().get())
                     .orElseThrow(() -> new UsernameNotFoundException("User with id " + dto.getAssigneeId()
                             + " not found"));
             task.setAssignee(user);

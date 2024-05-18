@@ -109,10 +109,10 @@ public class TaskControllerTest {
                 .andExpect(status().isOk());
 
         var taskStatus = taskRepository.findById(testTask.getId()).get();
-        assertThat(taskStatus.getIndex()).isEqualTo(taskUpdateDTO.getIndex());
-        assertThat(taskStatus.getName()).isEqualTo(taskUpdateDTO.getTitle());
-        assertThat(taskStatus.getDescription()).isEqualTo(taskUpdateDTO.getContent());
-        assertThat(taskStatus.getTaskStatus().getSlug()).isEqualTo(taskUpdateDTO.getStatus());
+        assertThat(taskStatus.getIndex()).isEqualTo(taskUpdateDTO.getIndex().get());
+        assertThat(taskStatus.getName()).isEqualTo(taskUpdateDTO.getTitle().get());
+        assertThat(taskStatus.getDescription()).isEqualTo(taskUpdateDTO.getContent().get());
+        assertThat(taskStatus.getTaskStatus().getSlug()).isEqualTo(taskUpdateDTO.getStatus().get());
     }
     @Test
     public void testPartiallyUpdate() throws Exception {
@@ -128,7 +128,7 @@ public class TaskControllerTest {
 
         var task = taskRepository.findById(testTask.getId()).get();
         assertThat(task.getName())
-                .isEqualTo(taskUpdateDTO.getTitle());
+                .isEqualTo(taskUpdateDTO.getTitle().get());
     }
     @Test
     public void testDelete() throws Exception {

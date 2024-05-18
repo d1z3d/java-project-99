@@ -12,6 +12,7 @@ import net.datafaker.Faker;
 import org.instancio.Instancio;
 import org.instancio.Model;
 import org.instancio.Select;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -60,9 +61,9 @@ public class TaskModelGenerator {
                 .toModel();
         taskCreateUpdateDTOModel = Instancio.of(TaskCreateUpdateDTO.class)
                 .ignore(Select.field(TaskCreateUpdateDTO::getAssigneeId))
-                .supply(Select.field(TaskCreateUpdateDTO::getIndex), () -> faker.number().positive())
-                .supply(Select.field(TaskCreateUpdateDTO::getTitle), () -> faker.name().title())
-                .supply(Select.field(TaskCreateUpdateDTO::getStatus), taskStatus::getSlug)
+                .supply(Select.field(TaskCreateUpdateDTO::getIndex), () -> JsonNullable.of(faker.number().positive()))
+                .supply(Select.field(TaskCreateUpdateDTO::getTitle), () -> JsonNullable.of(faker.name().title()))
+                .supply(Select.field(TaskCreateUpdateDTO::getStatus), () -> JsonNullable.of(taskStatus.getSlug()))
                 .toModel();
     }
 }
