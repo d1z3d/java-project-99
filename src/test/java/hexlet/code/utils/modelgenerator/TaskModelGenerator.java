@@ -64,6 +64,7 @@ public class TaskModelGenerator {
                 .supply(Select.field(TaskCreateUpdateDTO::getIndex), () -> JsonNullable.of(faker.number().positive()))
                 .supply(Select.field(TaskCreateUpdateDTO::getTitle), () -> JsonNullable.of(faker.name().title()))
                 .supply(Select.field(TaskCreateUpdateDTO::getStatus), () -> JsonNullable.of(taskStatus.getSlug()))
+                .supply(Select.field(TaskCreateUpdateDTO::getContent), () -> JsonNullable.of(faker.name().title()))
                 .toModel();
     }
 }
