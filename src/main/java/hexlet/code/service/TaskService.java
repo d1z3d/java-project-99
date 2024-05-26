@@ -44,8 +44,8 @@ public class TaskService {
                 .orElseThrow(() -> new ResourceNotFoundException("Task status with " + dto.getStatus() + " not found"));
         task.setTaskStatus(taskStatus);
         if (dto.getAssigneeId() != null
-                && dto.getAssigneeId().get() != null
-                && dto.getAssigneeId().get() != 0) {
+                && dto.getAssigneeId().get() != null) {
+                //&& dto.getAssigneeId().get() != 0) {
             var user = userRepository.findById(dto.getAssigneeId().get())
                     .orElseThrow(() -> new UsernameNotFoundException("User with id " + dto.getAssigneeId()
                             + " not found"));
