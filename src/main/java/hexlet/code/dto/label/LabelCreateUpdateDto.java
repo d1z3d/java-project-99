@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LabelModernizeDTO {
+public class LabelCreateUpdateDto {
     @NotNull
     @Size(min = 3, max = 1000)
     private String name;

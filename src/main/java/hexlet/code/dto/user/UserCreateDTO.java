@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserCreateUpdateDTO {
+public class UserCreateDTO {
     @Email
     private String email;
 

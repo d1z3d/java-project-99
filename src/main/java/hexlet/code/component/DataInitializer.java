@@ -1,8 +1,8 @@
 package hexlet.code.app.component;
 
-import hexlet.code.dto.label.LabelModernizeDTO;
+import hexlet.code.dto.label.LabelCreateUpdateDto;
 import hexlet.code.dto.taskstatus.TaskStatusCreateUpdateDTO;
-import hexlet.code.dto.user.UserCreateUpdateDTO;
+import hexlet.code.dto.user.UserCreateDTO;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.repository.LabelRepository;
@@ -28,7 +28,7 @@ public class DataInitializer implements ApplicationRunner {
     private final LabelRepository labelRepository;
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        var userDetails = new UserCreateUpdateDTO();
+        var userDetails = new UserCreateDTO();
         userDetails.setEmail("hexlet@example.com");
         userDetails.setPassword("qwerty");
         userService.create(userDetails);
@@ -45,9 +45,9 @@ public class DataInitializer implements ApplicationRunner {
             taskStatusRepository.save(taskStatus);
         });
 
-        Set<LabelModernizeDTO> labels = Set.of(
-                new LabelModernizeDTO("bug"),
-                new LabelModernizeDTO("feature")
+        Set<LabelCreateUpdateDto> labels = Set.of(
+                new LabelCreateUpdateDto("bug"),
+                new LabelCreateUpdateDto("feature")
         );
         labels.forEach(dto -> {
             var label = labelMapper.map(dto);

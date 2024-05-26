@@ -1,6 +1,6 @@
 package hexlet.code.utils.modelgenerator;
 
-import hexlet.code.dto.label.LabelModernizeDTO;
+import hexlet.code.dto.label.LabelCreateUpdateDto;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
 import jakarta.annotation.PostConstruct;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Getter
 public class LabelModelGenerator {
     private Model<Label> labelModel;
-    private Model<LabelModernizeDTO> labelModernizeDTOModel;
+    private Model<LabelCreateUpdateDto> labelModernizeDTOModel;
     @Autowired
     private Faker faker;
     @Autowired
@@ -29,8 +29,8 @@ public class LabelModelGenerator {
                 .ignore(Select.field(Label::getCreatedAt))
                 .supply(Select.field(Label::getName), () -> faker.lorem().characters(3, 1000))
                 .toModel();
-        labelModernizeDTOModel = Instancio.of(LabelModernizeDTO.class)
-                .supply(Select.field(LabelModernizeDTO::getName), () -> faker.lorem().characters(3, 1000))
+        labelModernizeDTOModel = Instancio.of(LabelCreateUpdateDto.class)
+                .supply(Select.field(LabelCreateUpdateDto::getName), () -> faker.lorem().characters(3, 1000))
                 .toModel();
     }
 }

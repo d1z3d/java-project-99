@@ -45,7 +45,6 @@ public class TaskService {
         task.setTaskStatus(taskStatus);
         if (dto.getAssigneeId() != null
                 && dto.getAssigneeId().get() != null) {
-                //&& dto.getAssigneeId().get() != 0) {
             var user = userRepository.findById(dto.getAssigneeId().get())
                     .orElseThrow(() -> new UsernameNotFoundException("User with id " + dto.getAssigneeId()
                             + " not found"));

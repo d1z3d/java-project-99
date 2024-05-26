@@ -1,7 +1,6 @@
 package hexlet.code.utils.modelgenerator;
 
 import hexlet.code.dto.task.TaskCreateUpdateDTO;
-import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskStatusRepository;
@@ -15,8 +14,6 @@ import org.instancio.Select;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 @Getter
@@ -41,9 +38,6 @@ public class TaskModelGenerator {
     @PostConstruct
     public void init() {
         var taskStatus = Instancio.of(taskStatusModelGenerator.getTaskStatusModel()).create();
-        var labels = labelRepository.findAll().stream()
-                .map(Label::getId)
-                .collect(Collectors.toSet());
         var newLabel = Instancio.of(labelModelGenerator.getLabelModel()).create();
         var user = Instancio.of(userModelGenerator.getUserModel()).create();
         userRepository.save(user);

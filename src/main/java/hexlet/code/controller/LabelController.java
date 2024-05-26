@@ -1,6 +1,6 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.label.LabelModernizeDTO;
+import hexlet.code.dto.label.LabelCreateUpdateDto;
 import hexlet.code.dto.label.LabelDTO;
 import hexlet.code.service.LabelService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -45,12 +45,12 @@ public class LabelController {
 
     @PostMapping("/labels")
     @ResponseStatus(HttpStatus.CREATED)
-    public LabelDTO create(@Valid @RequestBody LabelModernizeDTO dto) {
+    public LabelDTO create(@Valid @RequestBody LabelCreateUpdateDto dto) {
         return labelService.create(dto);
     }
 
     @PutMapping("/labels/{id}")
-    public LabelDTO update(@PathVariable("id") Long id, @Valid @RequestBody LabelModernizeDTO dto) {
+    public LabelDTO update(@PathVariable("id") Long id, @Valid @RequestBody LabelCreateUpdateDto dto) {
         return labelService.update(id, dto);
     }
 
